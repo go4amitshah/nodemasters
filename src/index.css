@@ -26,3 +26,22 @@ input:hover {
 input:focus {
   border-bottom: rgb(60, 138, 255) 3px solid !important;
 }
+.galaxy {
+  background-image: url("../public/assets/space.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.intro {
+  /* background-color: #61dafb; */
+  background-image: url("../public/assets/forest.jpg") !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  /* position: relative; */
+  /* z-index: 99; */
+}
+.user-nav {
+  background-color: transparent !important;
+  backdrop-filter: blur(10px);
+}

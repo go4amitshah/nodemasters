@@ -24,7 +24,7 @@ export default function Navbar_user() {
   }
   return (
     <div>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav class="navbar user-nav navbar-expand-lg ">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             nodeMasters - Welcome User!
@@ -66,6 +66,11 @@ export default function Navbar_user() {
               <li class="nav-item">
                 <Link to="/user/contact" class="nav-link" href="#">
                   Contact
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link to="/user/blogs" class="nav-link" href="#">
+                  Blogs
                 </Link>
               </li>
               <li class="nav-item">

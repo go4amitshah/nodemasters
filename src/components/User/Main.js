@@ -5,6 +5,8 @@ import ProtectedRoute from "../ProtectedRoute";
 import Insights from "./Insights";
 import Contact from "./Contact";
 import Resources from "./Resources";
+import Home from "./Home.js";
+import Blogs from "./Blogs.js";
 
 export default function Main() {
   return (
@@ -15,6 +17,7 @@ export default function Main() {
           path="/insights"
           element={<ProtectedRoute component={Insights} />}
         />
+        <Route path="/" element={<ProtectedRoute component={Home} />} />
         <Route
           path="/contact"
           element={<ProtectedRoute component={Contact} />}
@@ -23,6 +26,7 @@ export default function Main() {
           path="/resources"
           element={<ProtectedRoute component={Resources} />}
         />
+        <Route path="/blogs" element={<ProtectedRoute component={Blogs} />} />
       </Routes>
     </div>
   );

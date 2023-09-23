@@ -41,7 +41,7 @@ input {
   border-bottom: white 2px solid;
 }
 .galaxy {
-  background-image: url("./assets/space.jpg") !important;
+  background-image: url("../public/assets/space.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -55,6 +55,11 @@ input {
   /* position: relative; */
   /* z-index: 99; */
 }
+.user-nav {
+  background-color: transparent !important;
+  backdrop-filter: blur(10px);
+}
+
 .paattern {
   --s: 222px; /* control the size */
   --c1: #000000;

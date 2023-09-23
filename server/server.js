@@ -24,6 +24,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello");
 });
+app.get("/blogs", (req, res) => {
+  pool.getConnection((err, connection) => {
+    connection.query("SELECT * FROM blogs", (err, rows) => {
+      connection.release();
+      if (err) {
+        return res.status(500).send("Error while performing Query.");
+      }
+      res.json(rows);
+    });
+  });
+});
 app.post("/login", (req, res) => {
   console.log(req.body);
 
