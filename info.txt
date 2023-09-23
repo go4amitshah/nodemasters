@@ -1,0 +1,15 @@
+- login
+  - user
+    - blogs
+   
+    - contacts
+    - letest news
+    - resources
+  - admin (/dashboard)
+    - CRUD college data
+    - add new blog
+    - post a news (news api)
+    - provide resources
+- maps api: <script async
+            src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap">
+            </script>   
