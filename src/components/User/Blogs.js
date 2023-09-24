@@ -5,9 +5,9 @@ export default function Blogs() {
     getBlogs();
   });
   async function getBlogs(params) {
-    const temp = "";
-    const toShowHTML = "";
-    const response = await fetch("http://localhost:8000/blogs", {
+    var temp = "";
+    var toShowHTML = "";
+    fetch("http://localhost:8000/blogs", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -15,15 +15,26 @@ export default function Blogs() {
       },
     })
       .then((res) => res.json())
-      .then((data) => {});
+      .then((data) => {
+        data.forEach((blog) => {
+          temp = ` <div class="card text-center bg-transparent">
+            <div class="card-body">
+              <h4 class="card-title">${blog.title}</h4>
+              <p class="card-text">${blog.description}</p>
+            </div>
+          </div>`;
+          toShowHTML += temp;
+        });
+        document.querySelector("#blogs").innerHTML = toShowHTML;
+      });
   }
 
   return (
     <div>
-      <div className="container">
+      <div className="container bg-pattern">
         <h1 className="display-4">Blogs:</h1>
+        <div className="container" id="blogs"></div>
       </div>
-      <div className="container" id="blogs"></div>
     </div>
   );
 }

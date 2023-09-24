@@ -1,15 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   async function register() {
     const data = {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
       email: document.getElementById("email").value,
     };
-    const response = await fetch("http://localhost:8000/register", {
+    fetch("http://localhost:8000/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +21,7 @@ export default function Register() {
   return (
     <div>
       <div
-        className="container d-flex galaxy"
+        className="container-fluid d-flex galaxy"
         style={{
           height: "100vh",
           justifyContent: "center",

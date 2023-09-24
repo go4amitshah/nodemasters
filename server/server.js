@@ -24,17 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello");
 });
-app.get("/blogs", (req, res) => {
-  pool.getConnection((err, connection) => {
-    connection.query("SELECT * FROM blogs", (err, rows) => {
-      connection.release();
-      if (err) {
-        return res.status(500).send("Error while performing Query.");
-      }
-      res.json(rows);
-    });
-  });
-});
+
 app.post("/login", (req, res) => {
   console.log(req.body);
 
@@ -57,7 +47,7 @@ app.post("/login", (req, res) => {
         }
 
         const user = rows[0];
-
+        console.log(user.password, "  ", password);
         if (user.password !== password) {
           return res.status(401).send("Invalid password.");
         }
@@ -86,30 +76,224 @@ app.get("/logout", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  // const { username, password, email } = req.body
   const username = req.body.data.username;
   const password = req.body.data.password;
   const email = req.body.data.email;
-  // console.log("Username: ", username);
-  // console.log("server", req.body.data.username);
+
   pool.getConnection((err, connection) => {
     connection.query(
-      "INSERT INTO logindata (username, password, email , role) VALUES (?, ?, ? , ?)",
-      [username, password, email, "user"],
+      "SELECT * FROM logindata WHERE username = ?",
+      [username],
       (err, rows) => {
         connection.release();
         if (err) {
-          console.error("Error while performing Query.", err);
           return res.status(500).send("Error while performing Query.");
-        } else if (rows.username === username) {
-          return res.status(409).send("User already exists.");
-        } else {
-          res.json({ message: "User registered successfully." });
         }
+        if (rows.length !== 0) {
+          return res.status(409).send("User already exists.");
+        }
+        connection.query(
+          "INSERT INTO logindata (username, password, email, role) VALUES (?, ?, ?, ?)",
+          [username, password, email, "user"],
+          (err, result) => {
+            if (err) {
+              console.error("Error while performing Query.", err);
+              return res.status(500).send("Error while performing Query.");
+            }
+            res.json({ message: "User registered successfully." });
+          }
+        );
       }
     );
   });
 });
+//? ----------------------------------------------
+//! News:
+app.get("/news", (req, res) => {
+  pool.getConnection((err, connection) => {
+    connection.query("SELECT * FROM news", (err, rows) => {
+      connection.release();
+      if (err) {
+        return res.status(500).send("Error while performing Query.");
+      }
+      res.json(rows);
+    });
+  });
+});
+app.post("/news_insert", (req, res) => {
+  console.log(req.body);
+  const title = req.body.title;
+  const description = req.body.description;
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "INSERT INTO news (title, description) VALUES (?, ?)",
+      [title, description],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+app.post("/news_delete", (req, res) => {
+  console.log(req.body);
+  const id = parseInt(req.body.id);
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "DELETE FROM news WHERE news_id = ?",
+      [id],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+//! Notes:
+app.get("/resources", (req, res) => {
+  pool.getConnection((err, connection) => {
+    connection.query("SELECT * FROM resources", (err, rows) => {
+      connection.release();
+      if (err) {
+        return res.status(500).send("Error while performing Query.");
+      }
+      res.json(rows);
+    });
+  });
+});
+app.post("/resources_insert", (req, res) => {
+  const title = req.body.title;
+  const description = req.body.description;
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "INSERT INTO resources (title, description) VALUES (?, ?)",
+      [title, description],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+app.post("/resources_delete", (req, res) => {
+  const id = parseInt(req.body.id);
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "DELETE FROM resources WHERE resource_id = ?",
+      [id],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+//! Blog:
+app.get("/blogs", (req, res) => {
+  pool.getConnection((err, connection) => {
+    connection.query("SELECT * FROM blogs", (err, rows) => {
+      connection.release();
+      if (err) {
+        return res.status(500).send("Error while performing Query.");
+      }
+      res.json(rows);
+    });
+  });
+});
+
+app.post("/blog_insert", (req, res) => {
+  const title = req.body.title;
+  const description = req.body.description;
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "INSERT INTO blogs (title, description) VALUES (?, ?)",
+      [title, description],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+app.post("/blog_delete", (req, res) => {
+  const id = parseInt(req.body.id);
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "DELETE FROM blogs WHERE blog_id = ?",
+      [id],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+
+//! Insights:
+app.get("/insights", (req, res) => {
+  pool.getConnection((err, connection) => {
+    connection.query("SELECT * FROM insights", (err, rows) => {
+      connection.release();
+      if (err) {
+        return res.status(500).send("Error while performing Query.");
+      }
+      res.json(rows);
+    });
+  });
+});
+
+app.post("/insight_insert", (req, res) => {
+  const title = req.body.title;
+  const description = req.body.description;
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "INSERT INTO insights (title, description) VALUES (?, ?)",
+      [title, description],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+app.post("/insight_delete", (req, res) => {
+  const id = parseInt(req.body.id);
+  pool.getConnection((err, connection) => {
+    connection.query(
+      "DELETE FROM insights WHERE insight_id = ?",
+      [id],
+      (err, result) => {
+        if (err) {
+          console.error("Error while performing Query.", err);
+          return res.status(500).send("Error while performing Query.");
+        }
+        res.send("Success");
+      }
+    );
+  });
+});
+
 app.listen(8000, () => {
   console.log("App listening at : http://localhost:8000");
 });

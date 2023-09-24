@@ -1,6 +1,9 @@
-import React from "react";
-
+import { React, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 export default function Home() {
+  var navigate;
+  navigate = useNavigate();
+
   return (
     <div
       className="container-fluid"
@@ -56,7 +59,13 @@ export default function Home() {
                   explaining their ideology helping you get a better grasp of
                   their knowledge.
                 </p>
-                <a href="#" class="btn btn-primary">
+
+                <a
+                  class="btn btn-primary"
+                  onClick={() => {
+                    navigate("/user/insights");
+                  }}
+                >
                   Learn More
                 </a>
               </div>
@@ -74,7 +83,12 @@ export default function Home() {
                   We provide you with letest news regarding your university and
                   GTU, so that you are always on track!
                 </p>
-                <a href="#" class="btn btn-primary">
+                <a
+                  class="btn btn-primary"
+                  onClick={() => {
+                    navigate("/user/news");
+                  }}
+                >
                   Learn More
                 </a>
               </div>
@@ -99,7 +113,12 @@ export default function Home() {
               <div class="card-body">
                 <h5 class="card-title">Notes!</h5>
                 <p class="card-text">Get subject wise notes by your seniors!</p>
-                <a href="#" class="btn btn-primary">
+                <a
+                  class="btn btn-primary"
+                  onClick={() => {
+                    navigate("/user/resources");
+                  }}
+                >
                   Learn More
                 </a>
               </div>

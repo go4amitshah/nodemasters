@@ -1,52 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 function NewsApp() {
-  const [news, setNews] = useState([]);
+  useEffect(() => {
+    getNews();
+  });
 
-  const handleFetchNews = () => {
-    const apiKey = "d854249a1d314d07a433d8d2f9ef4f10";
-    const apiUrl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${apiKey}`;
-
-    const res = fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
+  async function getNews() {
+    var temp = "";
+    var toShowHTML = "";
+    fetch("http://localhost:8000/news", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
       .then((data) => {
-        const filteredArticles = data.articles.filter(
-          (element) => element.urlToImage && element.content
-        );
-        setNews(filteredArticles);
-      })
-      .catch((error) => {
-        console.error("Error fetching news:", error);
+        data.forEach((news) => {
+          temp = ` <div class="card text-center bg-transparent">
+            <div class="card-body">
+              <h4 class="card-title">${news.title}</h4>
+              <p class="card-text">${news.description}</p>
+            </div>
+          </div>`;
+          toShowHTML += temp;
+        });
+        document.querySelector("#news").innerHTML = toShowHTML;
       });
-  };
-
+  }
   return (
     <div>
-      <h1>Latest News</h1>
-      <button onClick={handleFetchNews}>Fetch News for India</button>
-      <div id="toShow">
-        {news.map((article, index) => (
-          <div className="card" style={{ width: "18rem" }} key={index}>
-            <img src={article.urlToImage} className="card-img-top" alt="..." />
-            <div className="card-body">
-              <h5 className="card-title">{article.title}</h5>
-              <p className="card-text">{article.content}</p>
-              <a
-                href={article.url}
-                className="btn btn-primary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Read Full
-              </a>
-            </div>
-          </div>
-        ))}
+      <div className="container bg-pattern">
+        <h1 className="display-4">News:</h1>
+        <div className="container" id="news"></div>
       </div>
     </div>
   );

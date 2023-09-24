@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar_user from "../Navbar_user.js";
+import NavbarUser from "../Navbar_user.js";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute";
 import Insights from "./Insights";
@@ -7,11 +7,12 @@ import Contact from "./Contact";
 import Resources from "./Resources";
 import Home from "./Home.js";
 import Blogs from "./Blogs.js";
+import NewsApp from "./News.js";
 
 export default function Main() {
   return (
     <div>
-      <Navbar_user></Navbar_user>
+      <NavbarUser></NavbarUser>
       <Routes>
         <Route
           path="/insights"
@@ -27,6 +28,7 @@ export default function Main() {
           element={<ProtectedRoute component={Resources} />}
         />
         <Route path="/blogs" element={<ProtectedRoute component={Blogs} />} />
+        <Route path="/news" element={<ProtectedRoute component={NewsApp} />} />
       </Routes>
     </div>
   );

@@ -45,3 +45,47 @@ input:focus {
   background-color: transparent !important;
   backdrop-filter: blur(10px);
 }
+body {
+  --s: 100px; /* control the size */
+  --c1: #1c002e;
+  --c2: #000203;
+
+  --_g: var(--c2) 6% 14%, var(--c1) 16% 24%, var(--c2) 26% 34%,
+    var(--c1) 36% 44%, var(--c2) 46% 54%, var(--c1) 56% 64%, var(--c2) 66% 74%,
+    var(--c1) 76% 84%, var(--c2) 86% 94%;
+  background: radial-gradient(
+      100% 100% at 100% 0,
+      var(--c1) 4%,
+      var(--_g),
+      #0008 96%,
+      #0000
+    ),
+    radial-gradient(
+        100% 100% at 0 100%,
+        #0000,
+        #0008 4%,
+        var(--_g),
+        var(--c1) 96%
+      )
+      var(--c1);
+  background-size: var(--s) var(--s);
+}
+.card {
+  transition: all 0.6s;
+}
+.card:hover {
+  transform: scale(1.1);
+  background-color: #180027a6 !important;
+}
+.admin-bg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background: radial-gradient(rgba(0, 0, 0, 0.418), black),
+    url(../public/assets/admin.png);
+  /* background-image: url(../public/assets/admin.jpg); */
+}
+.bg-blur {
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
